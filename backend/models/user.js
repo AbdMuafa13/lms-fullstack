@@ -4,26 +4,38 @@ const sequelize = require('../config/db');
 const User = sequelize.define(
   'User',
   {
-    fullName: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    UniqueID: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    email: {
-      type: DataTypes.STRING,
+    Fullname: {
+      type: DataTypes.STRING(100),
+    },
+    Email: {
+      type: DataTypes.STRING(100),
       unique: true,
-      allowNull: false,
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    PhoneNumber: {
+      type: DataTypes.STRING(20),
     },
-    role: {
-      type: DataTypes.ENUM('admin', 'teacher', 'student'),
-      defaultValue: 'student',
+    Address: {
+      type: DataTypes.TEXT,
+    },
+    Password: {
+      type: DataTypes.STRING(255),
+    },
+    RoleId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Role',
+        key: 'UniqueID',
+      },
     },
   },
   {
-    tableName: 'users',
+    tableName: 'User',
+    timestamps: false,
   }
 );
 

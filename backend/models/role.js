@@ -1,21 +1,21 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/db");
 
 const Role = sequelize.define(
-  'Role',
+  "Role",
   {
-    UniqueID: {
+    RoleID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    Name: {
-      type: DataTypes.STRING(100),
+    RoleName: {
+      type: DataTypes.ENUM("Admin", "Teacher", "Student"),
       allowNull: false,
     },
   },
   {
-    tableName: 'Role',
+    tableName: "roles",
     timestamps: false,
   }
 );

@@ -1,0 +1,158 @@
+{
+  "info": {
+    "name": "LMS API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Course",
+      "item": [
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/courses", "host": ["{{base_url}}"], "path": ["api", "courses"] }
+          }
+        },
+        {
+          "name": "Get Course By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/courses/1", "host": ["{{base_url}}"], "path": ["api", "courses", "1"] }
+          }
+        },
+        {
+          "name": "Create Course",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Matematika Dasar\",\n  \"org_id\": 1,\n  \"owner_id\": 2,\n  \"slug\": \"matematika-dasar\",\n  \"visibility\": \"public\",\n  \"price_cents\": 0\n}" },
+            "url": { "raw": "{{base_url}}/api/courses", "host": ["{{base_url}}"], "path": ["api", "courses"] }
+          }
+        },
+        {
+          "name": "Update Course",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Matematika Lanjutan\"\n}" },
+            "url": { "raw": "{{base_url}}/api/courses/1", "host": ["{{base_url}}"], "path": ["api", "courses", "1"] }
+          }
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/courses/1", "host": ["{{base_url}}"], "path": ["api", "courses", "1"] }
+          }
+        },
+        {
+          "name": "Enroll Course",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"user_id\": 3\n}" },
+            "url": { "raw": "{{base_url}}/api/courses/1/enroll", "host": ["{{base_url}}"], "path": ["api", "courses", "1", "enroll"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Section",
+      "item": [
+        {
+          "name": "Get All Sections by Course",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/sections/1", "host": ["{{base_url}}"], "path": ["api", "sections", "1"] }
+          }
+        },
+        {
+          "name": "Get Section By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/sections/detail/2", "host": ["{{base_url}}"], "path": ["api", "sections", "detail", "2"] }
+          }
+        },
+        {
+          "name": "Create Section",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Bab 1\",\n  \"position\": 1\n}" },
+            "url": { "raw": "{{base_url}}/api/sections/1", "host": ["{{base_url}}"], "path": ["api", "sections", "1"] }
+          }
+        },
+        {
+          "name": "Update Section",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Bab 1 - Revisi\"\n}" },
+            "url": { "raw": "{{base_url}}/api/sections/detail/2", "host": ["{{base_url}}"], "path": ["api", "sections", "detail", "2"] }
+          }
+        },
+        {
+          "name": "Delete Section",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/sections/detail/2", "host": ["{{base_url}}"], "path": ["api", "sections", "detail", "2"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Quiz",
+      "item": [
+        {
+          "name": "Get All Quizzes by Lesson",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/quizzes/1", "host": ["{{base_url}}"], "path": ["api", "quizzes", "1"] }
+          }
+        },
+        {
+          "name": "Get Quiz By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/quizzes/detail/2", "host": ["{{base_url}}"], "path": ["api", "quizzes", "detail", "2"] }
+          }
+        },
+        {
+          "name": "Create Quiz",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Quiz Bab 1\"\n}" },
+            "url": { "raw": "{{base_url}}/api/quizzes/1", "host": ["{{base_url}}"], "path": ["api", "quizzes", "1"] }
+          }
+        },
+        {
+          "name": "Update Quiz",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Quiz Bab 1 - Revisi\"\n}" },
+            "url": { "raw": "{{base_url}}/api/quizzes/detail/2", "host": ["{{base_url}}"], "path": ["api", "quizzes", "detail", "2"] }
+          }
+        },
+        {
+          "name": "Delete Quiz",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/quizzes/detail/2", "host": ["{{base_url}}"], "path": ["api", "quizzes", "detail", "2"] }
+          }
+        }
+      ]
+    }
+  ]
+}

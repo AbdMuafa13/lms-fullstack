@@ -1,6 +1,7 @@
 import type { CSSObject, Breakpoint } from '@mui/material/styles';
 
 import { merge } from 'es-toolkit';
+import { useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -40,15 +41,13 @@ export function AuthLayout({
   slotProps,
   layoutQuery = 'md',
 }: AuthLayoutProps) {
+  const location = useLocation();
+  const pathName = location.pathname;
+
   const renderHeader = () => {
     const headerSlotProps: HeaderSectionProps['slotProps'] = { container: { maxWidth: false } };
 
     const headerSlots: HeaderSectionProps['slots'] = {
-      topArea: (
-        <Alert severity="info" sx={{ display: 'none', borderRadius: 0 }}>
-          This is an info Alert.
-        </Alert>
-      ),
       leftArea: (
         <>
           {/** @slot Logo */}
@@ -84,26 +83,58 @@ export function AuthLayout({
 
   const renderFooter = () => null;
 
-  const renderMain = () => (
-    <MainSection
-      {...slotProps?.main}
-      sx={[
-        (theme) => ({
-          alignItems: 'center',
-          p: theme.spacing(3, 2, 10, 2),
-          [theme.breakpoints.up(layoutQuery)]: {
-            justifyContent: 'center',
-            p: theme.spacing(10, 0, 10, 0),
-          },
-        }),
-        ...(Array.isArray(slotProps?.main?.sx)
-          ? (slotProps?.main?.sx ?? [])
-          : [slotProps?.main?.sx]),
-      ]}
-    >
-      <AuthContent {...slotProps?.content}>{children}</AuthContent>
-    </MainSection>
-  );
+  const renderMain = () => {
+    let headerTitle: string | null = null;
+    if (pathName === '/auth/admin/login') {
+      headerTitle = 'Admin Login';
+    } else if (pathName === '/auth/teacher/login') {
+      headerTitle = 'Teacher Login';
+    } else if (pathName === '/auth/student/login') {
+      headerTitle = 'Student Login';
+    }
+
+    return (
+      <MainSection
+        {...slotProps?.main}
+        sx={[
+          (theme) => ({
+            alignItems: 'center',
+            p: theme.spacing(3, 2, 10, 2),
+            [theme.breakpoints.up(layoutQuery)]: {
+              justifyContent: 'center',
+              p: theme.spacing(10, 0, 10, 0),
+            },
+          }),
+          ...(Array.isArray(slotProps?.main?.sx)
+            ? (slotProps?.main?.sx ?? [])
+            : [slotProps?.main?.sx]),
+        ]}
+      >
+        {headerTitle && (
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              mb: 2,
+            }}
+          >
+            <Box
+              sx={{
+                typography: 'h6',
+                fontWeight: 'bold',
+                color: 'text.primary',
+              }}
+            >
+              {headerTitle}
+            </Box>
+          </Box>
+        )}
+
+        <AuthContent {...slotProps?.content}>{children}</AuthContent>
+      </MainSection>
+    );
+  };
 
   return (
     <LayoutSection

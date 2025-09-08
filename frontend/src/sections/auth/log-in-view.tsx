@@ -11,18 +11,49 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
 
+import api from 'src/api/axios';
+
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export function SignInView() {
+interface LoginResponse {
+  token: string;
+  user?: {
+    id: number;
+    username?: string;
+  };
+}
+
+export function LoginView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>('');
 
-  const handleSignIn = useCallback(() => {
-    router.push('/');
-  }, [router]);
+  const handleLogin = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await api.post<LoginResponse>('/login', { username, password });
+
+      localStorage.setItem('token', res.data.token);
+      router.push('/');
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err) {
+        const axiosErr = err as { response?: { data?: { message?: string } } };
+        setError(axiosErr.response?.data?.message || 'Login gagal');
+      } else {
+        setError('Login gagal');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [username, password, router]);
 
   const renderForm = (
     <Box
@@ -34,9 +65,10 @@ export function SignInView() {
     >
       <TextField
         fullWidth
-        name="email"
-        label="Email address"
-        defaultValue="hello@gmail.com"
+        name="username"
+        label="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
         sx={{ mb: 3 }}
         slotProps={{
           inputLabel: { shrink: true },
@@ -51,7 +83,8 @@ export function SignInView() {
         fullWidth
         name="password"
         label="Password"
-        defaultValue="@demo1234"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         type={showPassword ? 'text' : 'password'}
         slotProps={{
           inputLabel: { shrink: true },
@@ -74,9 +107,9 @@ export function SignInView() {
         type="submit"
         color="inherit"
         variant="contained"
-        onClick={handleSignIn}
+        onClick={handleLogin}
       >
-        Sign in
+        {loading ? 'Loading...' : 'Login'}
       </Button>
     </Box>
   );
@@ -92,7 +125,7 @@ export function SignInView() {
           mb: 5,
         }}
       >
-        <Typography variant="h5">Sign in</Typography>
+        <Typography variant="h5">Login</Typography>
         <Typography
           variant="body2"
           sx={{
@@ -123,12 +156,6 @@ export function SignInView() {
       >
         <IconButton color="inherit">
           <Iconify width={22} icon="socials:google" />
-        </IconButton>
-        <IconButton color="inherit">
-          <Iconify width={22} icon="socials:github" />
-        </IconButton>
-        <IconButton color="inherit">
-          <Iconify width={22} icon="socials:twitter" />
         </IconButton>
       </Box>
     </>
